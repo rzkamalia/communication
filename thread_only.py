@@ -34,7 +34,7 @@ for t in thread_list:
 #         time.sleep(2)
 #         total += 1
 #         print('total func_1 = {}'.format(total))
-#     print('========== func_1 done')
+#     print('func_1 done')
 
 # def func_2():
 #     global total
@@ -42,7 +42,7 @@ for t in thread_list:
 #         time.sleep(1)
 #         total += 1
 #         print('total func_2 = {}'.format(total))
-#     print('========== func_2 done')
+#     print('func_2 done')
 
 # def func_3():
 #     global total

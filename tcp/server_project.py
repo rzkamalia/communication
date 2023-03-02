@@ -2,44 +2,48 @@ import socket
 import cv2
 import json
 import base64
+import pickle
 import numpy as np
+import tensorflow as tf
 
-HOST = '192.168.254.160'
-PORT = 9001
+class_names = ['2nd generation group', '1st generation group']
+
+def processAI(img):
+    model = tf.keras.models.load_model('../model50epoch.h5')
+    img_array = tf.keras.utils.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) # create a batch
+    pred = model.predict(img_array)
+    score = tf.nn.softmax(pred[0])
+    classes = class_names[np.argmax(score)]
+    confident = round(100 * np.max(score), 2)
+    return img, classes, confident
+
+HOST = '192.168.115.160'
+PORT = 8080
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen()
 
 conn, addr = s.accept()
 
-data = b''
 while True:
-    chunk = conn.recv(4096)
-    if not chunk:
-        break
-    data += chunk
-json_data = json.loads(data.decode())
-img_str = json_data['image']
-img_bytes = base64.b64decode(img_str)
-img_array = np.frombuffer(img_bytes, dtype = np.uint8)
-img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+    # receive from client
+    data = conn.recvfrom(1000000) # kl di bawah ini, error data was truncated
+    data = pickle.loads(data[0])
+    img = base64.b64decode(data)
+    img = np.frombuffer(img, dtype = np.uint8)
+    img = cv2.imdecode(img, cv2.IMREAD_COLOR)
 
-img = cv2.resize(img, (299, 299)) # prepo for process AI
+    # process AI
+    img, classes, confident = processAI(img)
 
-# process AI
-import tensorflow as tf
+    # send back to client
+    result = {"classes": str(classes), "score": str(confident)}
+    result = json.dumps(result)
+    conn.sendall(result.encode("utf-8"))
 
-class_names = ['2nd generation group', '1st generation group']
-
-model = tf.keras.models.load_model('./model50epoch.h5')
-img_array = tf.keras.utils.img_to_array(img)
-img_array = tf.expand_dims(img_array, 0) # create a batch
-pred = model.predict(img_array)
-score = tf.nn.softmax(pred[0])
-classes = class_names[np.argmax(score)]
-confident =  round(100 * np.max(score), 2)
-print(f'Classes = {classes}. Score = {confident}%.')
-cv2.imwrite('output.jpg', img)
-
-conn.close()
-s.close()
+    # to show image
+    # cv2.imshow('SERVER', img)
+    # if cv2.waitKey(1) & 0xFF == ord('q'):
+    #     break
+# cv2.destroyAllWindows() # to show image

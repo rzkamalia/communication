@@ -11,7 +11,7 @@ class SensorFactory(GstRtspServer.RTSPMediaFactory):
         self.source_input = source_input
         self.frames = cv2.VideoCapture(self.source_input)
         self.number_frames = 0
-        self.fps = frame_rate_rtsp  # depends on FPS input (15 FPS)
+        self.fps = frame_rate_rtsp  # depends on FPS input
         self.duration = 1 / self.fps * Gst.SECOND   # duration of a frame in nanoseconds
         self.launch_string = 'appsrc name=source is-live=true block=true format=GST_FORMAT_TIME ' \
                             'caps=video/x-raw,format=BGR,width={},height={},framerate={}/1 ' \

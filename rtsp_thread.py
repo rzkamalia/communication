@@ -13,7 +13,7 @@ class SensorFactory(GstRtspServer.RTSPMediaFactory):
         super(SensorFactory, self).__init__(**properties)
         self.q = q
         self.number_frames = 0
-        self.fps = frame_rate_rtsp  # depends on FPS input (15 FPS)
+        self.fps = frame_rate_rtsp  # depends on FPS input
         self.duration = 1 / self.fps * Gst.SECOND   # duration of a frame in nanoseconds
         self.launch_string = 'appsrc name=source is-live=true block=true format=GST_FORMAT_TIME ' \
                             'caps=video/x-raw,format=BGR,width={},height={},framerate={}/1 ' \
@@ -64,7 +64,6 @@ def clearQueue(q):
 def processAI(source_input, q):
     video = cv2.VideoCapture(source_input)
     while True:
-        # print('source_input', source_input)
         ret, frame = video.read()
         if not ret:
             video = cv2.VideoCapture(source_input)
