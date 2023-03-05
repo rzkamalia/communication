@@ -18,11 +18,11 @@ def serveStreaming(source_input):
 
 app = Flask(__name__)
 
-@app.route(stream_name)
+@app.route(stream_name, methods = ['GET'])
 def get_image():
     return render_template('index.html')
 
-@app.route('/video_feed')
+@app.route('/')
 def video_feed():
     return Response(serveStreaming(source_input), mimetype = 'multipart/x-mixed-replace; boundary=frame')
 

@@ -9,7 +9,7 @@ import tensorflow as tf
 class_names = ['2nd generation group', '1st generation group']
 
 def processAI(img):
-    model = tf.keras.models.load_model('../model50epoch.h5')
+    model = tf.keras.models.load_model('model50epoch.h5')
     img_array = tf.keras.utils.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0) # create a batch
     pred = model.predict(img_array)

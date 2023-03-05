@@ -19,13 +19,13 @@ def serveStreaming(source_input):
 
 app = Flask(__name__)
 
-@app.route('/shinee')
+@app.route('/shinee', methods = ['GET'])
 def video_shinee():
-    return Response(serveStreaming(cameras[0]), mimetype = 'multipart/x-mixed-replace; boundary=frame')
-
-@app.route('/superjunior')
-def video_superjunior():
     return Response(serveStreaming(cameras[1]), mimetype = 'multipart/x-mixed-replace; boundary=frame')
+
+@app.route('/superjunior', methods = ['GET'])
+def video_superjunior():
+    return Response(serveStreaming(cameras[0]), mimetype = 'multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
     app.run()
