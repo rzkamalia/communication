@@ -69,4 +69,5 @@ for t in thread_list:
 
 # # (t_3.join di-on-in) OR (daemon t_3 = False) OR ((t_3.join di-on-in) AND (daemon t_3 = True)) :
 # # trus looping sampai task 3 selesai, kl ga selesai-selesai ya ga mati-mati programnya
+# # daemon = bayangan dari main thread
 # the join method is used to wait for each thread to complete before moving on to the next line of code

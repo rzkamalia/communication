@@ -10,7 +10,7 @@ from threading import Thread
  
 # task for the producer thread
 def producer(queue):
-    print('Producer starting')
+    print('producer starting')
     # add tasks to the queue
     for i in range(10):
         # generate a task
@@ -20,11 +20,11 @@ def producer(queue):
         queue.put(task)
     # send a signal that no further tasks are coming
     queue.put(None)
-    print('Producer finished')
+    print('producer finished')
  
 # task for the consumer thread
 def consumer(queue):
-    print('Consumer starting')
+    print('consumer starting')
     # process items from the queue
     while True:
         # get a task from the queue
@@ -39,7 +39,7 @@ def consumer(queue):
         queue.task_done()
     # mark the signal as processed
     queue.task_done()
-    print('Consumer finished')
+    print('consumer finished')
 
 # # create the shared queue
 # queue = Queue()
@@ -63,8 +63,8 @@ q = Queue()
 def worker():
     while True:
         item = q.get()
-        print(f'Working on {item}')
-        print(f'Finished {item}')
+        print(f'working on {item}')
+        print(f'finished {item}')
         q.task_done()
 
 # turn-on the worker thread
