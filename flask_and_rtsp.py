@@ -37,8 +37,7 @@ if MODE == 0:
 
     @app.route('/kpop'+'/<i>', methods = ['GET'])
     def get_stream(i):
-        return render_template('index_with_endpoint.html', endpoint = int(i))
-
+        return render_template('index_with_endpoint.html', endpoint = i)
 
     @app.route('/<int:i>')
     def video_feed(i):
