@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/button.css">
+        <title>Video Streaming</title>
+    </head>
+    <body>
+        <h1>Video Streaming</h1>
+        <img id="video-stream" src="{{ url_for('get_video') }}" width="640" height="480">
+        <br>
+        <span class="box">
+            <div class="subbox">Resume</div>
+            <div class="subbox">Pause</div>
+        </span>
+        <button id="pause-btn" class="toggle-button" onclick="togglePause()"></button>
+        <p id="countdown"></p>
+        <script>
+            var paused = true;
+            var pauseBtn = document.getElementById("pause-btn");
+            var video = document.getElementById("video-stream");
+            var countdownElement = document.getElementById("countdown");
+            var waitingTime = 5; // waiting time in seconds
+            var startTime;
+            var timeout;
+            var remainingTime;
+            var intervalId;
+
+            function togglePause() {
+                if (paused) {
+                    console.log("1")
+                    startTime = new Date().getTime();
+                    paused = false;
+                    // pauseBtn.textContent = "Resume";
+                    pauseBtn.classList.toggle("active");
+                    video.src = "{{ url_for('get_image') }}?" + startTime;
+                    intervalId = setInterval(updateCountdown, 1000); // update countdown every seconds
+                    timeout = setTimeout(startVideo, waitingTime * 1000); // setTimeout works with milliseconds
+
+                } else {
+                    console.log("paksa resume")
+                    console.log((new Date().getTime() - startTime))
+                    clearInterval(intervalId); // stops the interval execution
+                    clearTimeout(timeout);
+                    paused = true;
+                    // pauseBtn.textContent = "Pause";
+                    pauseBtn.classList.toggle("active");
+                    video.src = "{{ url_for('get_video') }}";
+                    fetch('/tidak_absen')
+                        .then(response => response.text())
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    countdownElement.textContent = ""; // clear the countdown text
+                }
+            }
+
+            function startVideo() {
+                if (!paused || (new Date().getTime() - startTime) < waitingTime * 1000) {
+                    console.log("waiting")
+                    console.log((new Date().getTime() - startTime))
+                    clearInterval(intervalId); // stops the interval execution
+                    paused = true;
+                    // pauseBtn.textContent = "Pause";
+                    pauseBtn.classList.toggle("active");
+                    video.src = "{{ url_for('get_video') }}";
+                    fetch('/absen')
+                        .then(response => response.text())
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                    countdownElement.textContent = ""; // clear the countdown text
+                }
+            }
+
+            function updateCountdown() {
+                remainingTime = Math.ceil((startTime + (waitingTime * 1000) - new Date().getTime()) / 1000);
+                countdownElement.textContent = "Waiting for " + remainingTime + " seconds.";
+            }
+
+            // setInterval(updateCountdown, 1000); // update countdown every seconds
+        </script>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Video Streaming</title>
+    </head>
+    <body>
+        <h1>Video Streaming</h1>
+        <img id="video-stream" src="{{ url_for('get_video') }}" width="640" height="480">
+        <button id="pause-btn" onclick="togglePause()">Pause</button>
+        <script>
+            var paused = true;
+            var pauseBtn = document.getElementById("pause-btn");
+            var video = document.getElementById("video-stream");
+            function togglePause() {
+                if (paused) {
+                    paused = !paused;
+                    pauseBtn.textContent = "Resume";
+                    video.src = "{{ url_for('get_image') }}?" + new Date().getTime();
+                } 
+                else {
+                    paused = !paused;
+                    pauseBtn.textContent = "Pause";
+                    video.src = "{{ url_for('get_video') }}";
+                }
+            }
+        </script>
+    </body>
+</html>
