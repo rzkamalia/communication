@@ -18,7 +18,7 @@ def processAI(img):
     confident = round(100 * np.max(score), 2)
     return img, classes, confident
 
-HOST = '192.168.115.160'
+HOST = '192.168.177.160'
 PORT = 8080
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
@@ -28,7 +28,7 @@ conn, addr = s.accept()
 
 while True:
     # receive from client
-    data = conn.recvfrom(1000000) # kl di bawah ini, error data was truncated
+    data = conn.recvfrom(1000000000) # kl di bawah ini, error data was truncated
     data = pickle.loads(data[0])
     img = base64.b64decode(data)
     img = np.frombuffer(img, dtype = np.uint8)

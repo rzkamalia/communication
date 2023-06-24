@@ -2,7 +2,7 @@ import socket
 
 # host = socket.gethostbyname(socket.gethostname()) # automatic get your prate ip address
 
-HOST = '192.168.254.160'
+HOST = '192.168.177.160'
 PORT = 9099
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # TCP # this socket just for accepting connection, not for talk to client

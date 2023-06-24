@@ -3,7 +3,7 @@ import cv2
 import base64
 import pickle
 
-HOST = '192.168.115.160'
+HOST = '192.168.177.160'
 PORT = 8080
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
