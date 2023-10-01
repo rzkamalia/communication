@@ -23,14 +23,14 @@ class SensorFactory(GstRtspServer.RTSPMediaFactory):
     
     def on_need_data(self, src, _):
         # get some data
-        if self.frames.isOpened(): # ini w masih bingung kenapa kl diganti while True dia error-nya itu ga ada frame
+        if self.frames.isOpened(): # ini masih bingung kenapa kl diganti while True dia error-nya itu ga ada frame
             ret, frame = self.frames.read()
             if not ret:
                 self.frames = cv2.VideoCapture(self.source_input)
             else:
-                # start proses AI ceunah
+                # start proses AI
                 frame = cv2.flip(frame, 0) 
-                # end proses AI ceunah
+                # end proses AI
                 
                 resized = cv2.resize(frame, (1280, 720))
                 data = resized.tobytes()
@@ -46,7 +46,6 @@ class SensorFactory(GstRtspServer.RTSPMediaFactory):
                 retval = src.emit('push-buffer', buf)
                 if retval != Gst.FlowReturn.OK:
                     print("retval != Gst.FlowReturn.OK | retval:", retval)
-                    # retval != Gst.FlowReturn.OK | retval: <enum GST_FLOW_FLUSHING of type Gst.FlowReturn> = ga ada frame yang masuk
 
     def do_create_element(self, _):
         return Gst.parse_launch(self.launch_string)

@@ -27,5 +27,4 @@ def video_feed():
     return Response(serveStreaming(source_input), mimetype = 'multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    print(f'http://0.0.0.0:{port_artis}{stream_name}')
     serve(app, host = '0.0.0.0', port = port_artis, threads = 4)

@@ -14,7 +14,7 @@ python3 app.py
 
 **rtsp_only.py** = "introduction" streaming one video with rtsp.
 
-**rtsp_thread.py** = streaming multi-video with one python, same process AI fro all video, and using queue for serve frame.
+**rtsp_thread.py** = streaming multi-video with one python, same process AI for all video, and using queue for serve frame.
 
 **tcp** = folder for tcp communication. running the server first, then running the client.
 

@@ -21,7 +21,6 @@ class SensorFactory(GstRtspServer.RTSPMediaFactory):
                             '! x264enc bitrate={} tune=zerolatency speed-preset=ultrafast ' \
                             '! rtph264pay config-interval=1 name=pay0 pt=96 ' \
                             .format(1280, 720, self.fps, max_bitrate_rtsp)  # bitrate (kbps)
-                            # '! video/x-h264,stream-format=byte-stream ' \ # diletakan setelah x264enc
     
     def on_need_data(self, src, _):
         data = self.q.get()
